@@ -166,20 +166,45 @@ interface Drawable{
 }
 ```
 
-## Marker or Tagged Interface
+### Marker or Tagged Interface
 
 Empty interfaces. Used to provide essential information to JVM. like Serializable, Cloneable, Remote.
 
-## difference between Interface and abstract class
+### difference between Interface and abstract class
 
-| Abstract class | Interface |
-| :--- | --- |
+
+
+| Abstract class                           | Interface                                |
+| :--------------------------------------- | ---------------------------------------- |
 | can have abstract and non-abstract method | can only have abstract/default/static methods |
-| doesn't support multiple inheritance | support |
-| can have final, non-final, static and non-static variables | only final and static variables |
-| keyword: abstract | keyword: interface |
-|  |  |
-|  |  |
+| doesn't support multiple inheritance     | support                                  |
+| can have final, non-final, static and non-static variables | only final and static variables          |
+| keyword: abstract                        | keyword: interface                       |
+|                                          |                                          |
+|                                          |                                          |
+
+### default and static method in interface
+
+From java8, interface can have static or default method.
+
+```java
+interface Sayable{    
+    // default method. Provide a default implmentation. can be overriden     
+    default void say(){    
+        System.out.println("Hello, this is default method");    
+    }    
+    // Abstract method    
+    void sayMore(String msg);    
+    // static method    
+    static void sayLouder(String msg){    
+        System.out.println(msg);    
+    }
+}
+```
+
+
+
+
 
 ## Package
 
@@ -214,15 +239,15 @@ AClass a = new a_package.AClass();
 
 ## Object class in Java
 
-| Method | Description |
-| --- | --- |
-| public final Class getClass\(\) | returns the Class class object of this object. The Class class can further be used to get the metadata of this class. |
-| public int hashCode\(\) | returns the hashcode number for this object. |
-| public boolean equals\(Object obj\) | compares the given object to this object. |
+| Method                                   | Description                              |
+| ---------------------------------------- | ---------------------------------------- |
+| public final Class getClass\(\)          | returns the Class class object of this object. The Class class can further be used to get the metadata of this class. |
+| public int hashCode\(\)                  | returns the hashcode number for this object. |
+| public boolean equals\(Object obj\)      | compares the given object to this object. |
 | protected Object clone\(\) throws CloneNotSupportedException | creates and returns the exact copy \(clone\) of this object. |
-| public String toString\(\) | returns the string representation of this object. |
-| public final void notify\(\) | wakes up single thread, waiting on this object's monitor. |
-| public final void notifyAll\(\) | wakes up all the threads, waiting on this object's monitor. |
+| public String toString\(\)               | returns the string representation of this object. |
+| public final void notify\(\)             | wakes up single thread, waiting on this object's monitor. |
+| public final void notifyAll\(\)          | wakes up all the threads, waiting on this object's monitor. |
 | public final void wait\(long timeout\)throws InterruptedException | causes the current thread to wait for the specified milliseconds, until another thread notifies \(invokes notify\(\) or notifyAll\(\) method\). |
 | public final void wait\(long timeout,int nanos\)throws InterruptedExceptioncauses | the current thread to wait for the specified milliseconds and nanoseconds, until another thread notifies \(invokes notify\(\) or notifyAll\(\) method\). |
 | public final void wait\(\)throws InterruptedException | causes the current thread to wait, until another thread notifies \(invokes notify\(\) or notifyAll\(\) method\). |
@@ -236,16 +261,16 @@ implement Cloneable interface and inplement clone method.
 
 convert primitive to class or vice-versa
 
-| boolean | Boolean |
-| --- | --- |
-| char | Character |
-| byte | Byte |
-| short | Short |
-| int | Integer |
-| long | Long |
-| float | Float |
-| double | Double |
-|  |  |
+| boolean | Boolean   |
+| ------- | --------- |
+| char    | Character |
+| byte    | Byte      |
+| short   | Short     |
+| int     | Integer   |
+| long    | Long      |
+| float   | Float     |
+| double  | Double    |
+|         |           |
 
 ```java
 int a = 10;
@@ -300,7 +325,7 @@ return_type method_name() throws exception_class_name {}//throw new IOException(
 
 ​    If you are calling method that declares an exception, you must either catch or declare it.
 
-#### ExceptionHandling with MethodOverriding in Java
+### ExceptionHandling with MethodOverriding in Java
 
 * If the superclass method does not declare an exception
 
@@ -310,7 +335,7 @@ return_type method_name() throws exception_class_name {}//throw new IOException(
 
   * If the superclass method declares an exception, subclass overridden method can declare same, subclass exception or no exception but cannot declare parent exception. 
 
-#### Custom Exception
+### Custom Exception
 
 ```java
 class InvalidAgeException extends Exception{  
@@ -319,5 +344,237 @@ class InvalidAgeException extends Exception{
  }
 ```
 
-test
+### multiple catch
+
+```java
+public class MultipleExceptionExample{    
+    public static void main(String args[]){    
+        try{    
+            int array[] = newint[10];    
+            array[10] = 30/0;    
+        }    
+        catch(ArithmeticException | ArrayIndexOutOfBoundsException e){  
+            System.out.println(e.getMessage());  
+        }    
+     }    
+}
+```
+
+> #### Note - Catch block which handles more than one exception type makes the catch parameter implicitly final. In the above example, the catch parameter "e" is final and therefore you cannot assign any value to it.
+
+old:
+
+```java
+public class MultipleExceptionExample{    
+    public static void main(String args[]){    
+        try{    
+            int array[] = newint[10];    
+            array[10] = 30/0;    
+        }    
+        catch(ArithmeticException e){  
+            System.out.println(e.getMessage());  
+        }    
+        catch(ArrayIndexOutOfBoundsException e){  
+            System.out.println(e.getMessage());  
+        }    
+        catch(Exception e){  
+            System.out.println(e.getMessage());  
+        }    
+     }    
+}  
+```
+
+### try-with-resource
+
+The try-with-resources statement ensures that each resource is closed at the end of the statement execution
+
+```java
+try(FileOutputStream fileOutputStream = newFileOutputStream("/java7-new-features/src/abc.txt")){      
+String msg = "Welcome to javaTpoint!";      
+byte byteArray[] = msg.getBytes(); //converting string into byte array      
+fileOutputStream.write(byteArray);  
+System.out.println("Message written to file successfuly!");      
+}catch(Exception exception){  
+       System.out.println(exception);  
+}      
+```
+
+
+
+## lambda
+
+```java
+(argument-list) -> {body}  
+```
+
+
+
+old: (functional interface : an interface w/o only one method)
+
+```java
+interface Drawable{  
+    public void draw();  
+}  
+public class LambdaExpressionExample {  
+    public static void main(String[] args) {  
+        int width=10;  
+  
+        //without lambda, Drawable implementation using anonymous class  
+        Drawable d=new Drawable(){  
+            public void draw(){System.out.println("Drawing "+width);}  
+        };  
+        d.draw();  
+    }  
+}  
+```
+
+
+
+```java
+//lambda w/o parameter
+interface Sayable{  
+    public String say();  
+}  
+public class LambdaExpressionExample{  
+public static void main(String[] args) {  
+    Sayable s=()->{  
+        return "I have nothing to say.";  
+    };  
+    System.out.println(s.say());  
+}  
+}  
+```
+
+```java
+//multiple prameters
+interface Addable{  
+    int add(int a,int b);  
+}  
+  
+public class LambdaExpressionExample{  
+    public static void main(String[] args) {  
+          
+        // Multiple parameters in lambda expression  
+        Addable ad1=(a,b)->(a+b);  
+        System.out.println(ad1.add(10,20));  
+          
+        // Multiple parameters with data type in lambda expression  
+        Addable ad2=(int a,int b)->(a+b);  
+        System.out.println(ad2.add(100,200));  
+    }  
+}  
+```
+
+> In Java lambda expression, if there is only one statement, you may or may not use return keyword. You must use return keyword when lambda expression contains multiple statements.
+
+```java
+package lambdaExample;  
+  
+interface Addable{  
+    int add(int a,int b);  
+}  
+  
+public class lambdaExpression {  
+    public static void main(String[] args) {  
+          
+        // Lambda expression without return keyword.  
+        Addable ad1=(a,b)->(a+b);  
+        System.out.println(ad1.add(10,20));  
+          
+        // Lambda expression with return keyword.    
+        Addable ad2=(int a,int b)->{  
+                            return (a+b);   
+                            };  
+        System.out.println(ad2.add(100,200));  
+    }  
+}  
+```
+
+```java
+ Collections.sort(list,(p1,p2)->{  
+        return p1.name.compareTo(p2.name);  
+        });  
+```
+
+```java
+        List<Product> list=new ArrayList<Product>();  
+        // using lambda to filter data  
+        Stream<Product> filtered_data = list.stream().filter(p -> p.price > 20000);  
+		
+		// using lambda to iterate through collection  
+        filtered_data.forEach(  
+                product -> System.out.println(product.name+": "+product.price)  
+        );  
+
+```
+
+## Method reference
+
+### Reference to a Static Method
+
+ContainingClass::staticMethodName  
+
+```java
+interface Sayable{  
+    void say();  
+}  
+public class MethodReference {  
+    public static void saySomething(){  
+        System.out.println("Hello, this is static method.");  
+    }  
+    public static void main(String[] args) {  
+        // Referring static method  
+        Sayable sayable = MethodReference::saySomething;  
+        // Calling interface method  
+        sayable.say();  
+    }  
+}  
+```
+
+### reference to instance method
+
+```java
+interface Sayable{  
+    void say();  
+}  
+publicclass MethodReference {  
+    public void saySomething(){  
+        System.out.println("Hello, this is non-static method.");  
+    }  
+    public static void main(String[] args) {  
+        MethodReference methodReference = new MethodReference(); // Creating object  
+        // Referring non-static method using reference  
+            Sayable sayable = methodReference::saySomething;  
+        // Calling interface method  
+            sayable.say();  
+            // Referring non-static method using anonymous object  
+            Sayable sayable2 = new MethodReference()::saySomething; // You can use anonymous object also  
+            // Calling interface method  
+            sayable2.say();  
+    }  
+}  
+```
+
+### reference to a constructor
+
+```java
+interface Messageable{  
+    Message getMessage(String msg);  
+}  
+class Message{  
+    public Message(String msg){  
+        System.out.print(msg);  
+    }  
+}  
+public class ConstructorReference {  
+    public static void main(String[] args) {  
+        Messageable hello = Message::new;  
+        hello.getMessage("Hello");  
+    }  
+}  
+```
+
+## Functional interface
+
+## Stream
 
